@@ -56,12 +56,31 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
   const [loading, setLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [showSearch, setShowSearch] = useState(false)
+  const [provider, setProvider] = useState<'gemini' | 'openai'>(
+    (process.env.NEXT_PUBLIC_DEFAULT_AI_PROVIDER as 'gemini' | 'openai') || 'openai'
+  )
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  useEffect(() => {
+    const defaultProv = process.env.NEXT_PUBLIC_DEFAULT_AI_PROVIDER as 'gemini' | 'openai'
+    const storedProvider = localStorage.getItem('ai_provider') as 'gemini' | 'openai'
+
+    if (defaultProv === 'openai' || defaultProv === 'gemini') {
+      setProvider(defaultProv)
+    } else if (storedProvider === 'gemini' || storedProvider === 'openai') {
+      setProvider(storedProvider)
+    }
+  }, [])
+
+  const handleProviderChange = (newProvider: 'gemini' | 'openai') => {
+    setProvider(newProvider)
+    localStorage.setItem('ai_provider', newProvider)
+  }
 
   const generateId = () => Math.random().toString(36).slice(2)
 
@@ -95,7 +114,7 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ datasetId: dataset.id, query: text.trim() }),
+        body: JSON.stringify({ datasetId: dataset.id, query: text.trim(), provider }),
       })
 
       const data = await res.json()
@@ -193,6 +212,19 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Model Selector */}
+          <div className="flex items-center gap-2 mr-2 bg-slate-800/40 border border-white/5 rounded-xl px-2.5 py-1.5 transition-all hover:bg-slate-800/60 hover:border-white/10">
+            <div className={`w-1.5 h-1.5 rounded-full ${provider === 'gemini' ? 'bg-purple-400 shadow-sm shadow-purple-400' : 'bg-emerald-400 shadow-sm shadow-emerald-400'} animate-pulse`} />
+            <select
+              value={provider}
+              onChange={(e) => handleProviderChange(e.target.value as 'gemini' | 'openai')}
+              className="bg-transparent border-none p-0 text-xs font-semibold text-slate-300 focus:ring-0 focus:outline-none cursor-pointer hover:text-white transition-colors select-none"
+            >
+              <option value="gemini" className="bg-slate-900 text-slate-300">Google Gemini</option>
+              <option value="openai" className="bg-slate-900 text-slate-300">OpenAI GPT-4o</option>
+            </select>
+          </div>
+
           {showSearch && (
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />

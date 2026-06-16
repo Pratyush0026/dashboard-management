@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase/client'
 import { verifyToken } from '@/lib/auth'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import OpenAI from 'openai'
 import { buildAIContext } from '@/lib/dataset-analysis'
 import type { ColumnMeta } from '@/lib/types'
 
@@ -19,7 +20,11 @@ export async function POST(request: NextRequest) {
     if (!supabaseAdmin) return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
 
     const body = await request.json()
-    const { datasetId, query } = body as { datasetId?: string; query?: string }
+    const { datasetId, query, provider } = body as {
+      datasetId?: string
+      query?: string
+      provider?: 'gemini' | 'openai'
+    }
 
     if (!datasetId || !query) {
       return NextResponse.json({ error: 'Dataset ID and query are required' }, { status: 400 })
@@ -37,10 +42,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Dataset not found' }, { status: 404 })
     }
 
-    const geminiKey = process.env.GEMINI_API_KEY
-    if (!geminiKey) {
-      return NextResponse.json({ error: 'Gemini API key not configured' }, { status: 500 })
-    }
+    const activeProvider = provider || process.env.NEXT_PUBLIC_DEFAULT_AI_PROVIDER || 'gemini'
 
     const rows = dataset.data as Record<string, unknown>[]
     const columns = dataset.columns as ColumnMeta[]
@@ -70,19 +72,51 @@ CRITICAL RULES:
 
 ${dataContext}`
 
-    const genAI = new GoogleGenerativeAI(geminiKey)
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+    let response = ''
 
-    const result = await model.generateContent({
-      systemInstruction: systemPrompt,
-      contents: [{ role: 'user', parts: [{ text: query }] }],
-      generationConfig: {
+    if (activeProvider === 'openai') {
+      const openaiKey = process.env.OPENAI_API_KEY
+      if (!openaiKey) {
+        return NextResponse.json(
+          { error: 'OpenAI API key not configured. Please add it to your .env.local file.' },
+          { status: 500 }
+        )
+      }
+
+      const openai = new OpenAI({ apiKey: openaiKey })
+      const chatCompletion = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: query },
+        ],
         temperature: 0.1,
-        maxOutputTokens: 8192,
-      },
-    })
+      })
 
-    const response = result.response.text()
+      response = chatCompletion.choices[0].message.content || ''
+    } else {
+      const geminiKey = process.env.GEMINI_API_KEY
+      if (!geminiKey) {
+        return NextResponse.json(
+          { error: 'Gemini API key not configured' },
+          { status: 500 }
+        )
+      }
+
+      const genAI = new GoogleGenerativeAI(geminiKey)
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+
+      const result = await model.generateContent({
+        systemInstruction: systemPrompt,
+        contents: [{ role: 'user', parts: [{ text: query }] }],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 8192,
+        },
+      })
+
+      response = result.response.text()
+    }
 
     // Save query to history
     await supabaseAdmin.from('ai_queries').insert([{
@@ -99,9 +133,14 @@ ${dataContext}`
     let userFriendlyError = 'Failed to process query'
 
     if (errMsg.includes('Quota exceeded') || errMsg.includes('429') || error?.status === 429) {
-      userFriendlyError = 'Gemini API quota exceeded (429). Please check your API key or billing/quota plan on Google AI Studio.'
-    } else if (errMsg.includes('API key') || errMsg.includes('not found') || error?.status === 403) {
-      userFriendlyError = 'Invalid Gemini API key. Please verify your API key configuration.'
+      userFriendlyError = 'AI API quota exceeded (429). Please check your API key or billing/quota plan.'
+    } else if (
+      errMsg.includes('API key') ||
+      errMsg.includes('not found') ||
+      error?.status === 403 ||
+      error?.status === 401
+    ) {
+      userFriendlyError = 'Invalid AI API key. Please verify your API key configuration.'
     } else {
       userFriendlyError = `AI Query Failed: ${errMsg}`
     }
