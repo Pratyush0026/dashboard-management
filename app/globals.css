@@ -5,25 +5,25 @@
 @tailwind utilities;
 
 :root {
-  --background: 222 47% 6%;
-  --foreground: 210 40% 98%;
-  --card: 222 47% 9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222 47% 9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 262 83% 67%;
+  --background: 0 0% 100%;
+  --foreground: 215 28% 17%;
+  --card: 0 0% 99%;
+  --card-foreground: 215 28% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 28% 17%;
+  --primary: 204 100% 50%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 217 33% 17%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 20% 65%;
-  --accent: 217 33% 17%;
-  --accent-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 215 28% 17%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 204 100% 95%;
+  --accent-foreground: 204 100% 35%;
   --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217 33% 17%;
-  --input: 217 33% 17%;
-  --ring: 262 83% 67%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 204 100% 50%;
   --radius: 0.75rem;
 }
 
@@ -49,28 +49,29 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--card));
+  background: hsl(210 40% 98%);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
+  background: hsl(214 32% 85%);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.5);
+  background: hsl(var(--primary) / 0.4);
 }
 
 /* Glass morphism effects */
 .glass {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 153, 255, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 153, 255, 0.06);
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6);
+  background: linear-gradient(135deg, #0099ff, #0066cc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -84,18 +85,14 @@ body {
 }
 
 .animated-gradient {
-  background: linear-gradient(-45deg, #a855f7, #6366f1, #3b82f6, #06b6d4);
+  background: linear-gradient(-45deg, #0099ff, #0066cc, #33b3ff, #0080ff);
   background-size: 400% 400%;
   animation: gradient-shift 15s ease infinite;
 }
 
 /* Glow effects */
-.glow-purple {
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
-}
-
 .glow-blue {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 20px rgba(0, 153, 255, 0.2);
 }
 
 /* Table styles */
@@ -105,8 +102,8 @@ table {
 }
 
 th {
-  background: hsl(var(--muted) / 0.5);
-  color: hsl(var(--muted-foreground));
+  background: hsl(210 40% 97%);
+  color: hsl(215 16% 47%);
   font-weight: 600;
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -117,12 +114,12 @@ th {
 
 td {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  border-bottom: 1px solid hsl(214 32% 91%);
   font-size: 0.875rem;
 }
 
 tr:hover td {
-  background: hsl(var(--muted) / 0.3);
+  background: hsl(204 100% 98%);
 }
 
 /* Prose styles for markdown */
@@ -152,14 +149,15 @@ tr:hover td {
 }
 
 .prose-dark code {
-  background: hsl(var(--muted));
+  background: hsl(204 100% 95%);
+  color: hsl(204 100% 35%);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   font-size: 0.85em;
 }
 
 .prose-dark pre {
-  background: hsl(var(--card));
+  background: hsl(210 40% 97%);
   padding: 1rem;
   border-radius: 0.5rem;
   overflow-x: auto;
@@ -172,34 +170,34 @@ tr:hover td {
 }
 
 .prose-dark thead {
-  background: hsl(var(--primary) / 0.15);
+  background: hsl(204 100% 95%);
 }
 
 .prose-dark thead th {
-  color: hsl(var(--primary));
+  color: hsl(204 100% 35%);
   padding: 0.5rem 1rem;
   font-weight: 600;
-  border: 1px solid hsl(var(--border));
+  border: 1px solid hsl(214 32% 91%);
 }
 
 .prose-dark tbody td {
   padding: 0.5rem 1rem;
-  border: 1px solid hsl(var(--border));
+  border: 1px solid hsl(214 32% 91%);
 }
 
 .prose-dark tbody tr:nth-child(even) td {
-  background: hsl(var(--muted) / 0.2);
+  background: hsl(210 40% 98%);
 }
 
 .prose-dark strong {
-  color: hsl(var(--primary));
+  color: hsl(204 100% 40%);
   font-weight: 600;
 }
 
 .prose-dark blockquote {
-  border-left: 3px solid hsl(var(--primary));
+  border-left: 3px solid hsl(204 100% 50%);
   padding-left: 1rem;
-  color: hsl(var(--muted-foreground));
+  color: hsl(215 16% 47%);
   font-style: italic;
 }
 

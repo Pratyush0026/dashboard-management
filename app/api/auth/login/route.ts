@@ -24,7 +24,28 @@ export async function POST(request: NextRequest) {
       .eq('email', email.toLowerCase().trim())
       .single()
 
-    if (error || !admin) {
+    if (error) {
+      const msg = (error as any)?.message || ''
+      if (msg.includes('fetch failed') || msg.includes('ENOTFOUND') || msg.includes('ECONNREFUSED')) {
+        return NextResponse.json(
+          { error: 'Cannot reach the database. Your Supabase project may be paused — go to supabase.com and restore it.' },
+          { status: 503 }
+        )
+      }
+      if (msg.includes('does not exist') || (error as any)?.code === '42P01') {
+        return NextResponse.json(
+          { error: 'Database tables not found. Run the SQL in lib/supabase/setup.sql in your Supabase dashboard.' },
+          { status: 500 }
+        )
+      }
+      // PGRST116 = no rows (user not found) — this is normal
+      if ((error as any)?.code !== 'PGRST116') {
+        console.error('Login DB error:', error)
+        return NextResponse.json({ error: `Database error: ${msg}` }, { status: 500 })
+      }
+    }
+
+    if (!admin) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
     }
 

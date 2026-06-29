@@ -120,11 +120,11 @@ export default function DatasetManager({
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'numeric': return 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-      case 'categorical': return 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
-      case 'date': return 'bg-green-500/10 text-green-400 border border-green-500/20'
-      case 'boolean': return 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-      default: return 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
+      case 'numeric': return 'bg-primary-50 text-primary-700 border border-primary-200'
+      case 'categorical': return 'bg-violet-50 text-violet-700 border border-violet-200'
+      case 'date': return 'bg-green-50 text-green-700 border border-green-200'
+      case 'boolean': return 'bg-amber-50 text-amber-700 border border-amber-200'
+      default: return 'bg-gray-100 text-gray-600 border border-gray-200'
     }
   }
 
@@ -143,19 +143,19 @@ export default function DatasetManager({
   return (
     <div className="flex flex-1 h-screen overflow-hidden">
       {/* Left: Dataset List */}
-      <div className="w-80 border-r border-white/5 flex flex-col bg-slate-900/30">
-        <div className="p-6 border-b border-white/5">
-          <h2 className="text-lg font-semibold text-white mb-1">Datasets</h2>
-          <p className="text-xs text-slate-500">{datasets.length} file{datasets.length !== 1 ? 's' : ''} uploaded</p>
+      <div className="w-80 border-r border-gray-200 flex flex-col bg-white">
+        <div className="p-6 border-b border-gray-100">
+          <h2 className="text-lg font-semibold text-gray-900 mb-1">Datasets</h2>
+          <p className="text-xs text-gray-400">{datasets.length} file{datasets.length !== 1 ? 's' : ''} uploaded</p>
         </div>
 
         {/* Upload Area */}
-        <div className="p-4 border-b border-white/5">
+        <div className="p-4 border-b border-gray-100">
           <label
             className={`flex flex-col items-center gap-3 p-6 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-200 ${
               dragOver
-                ? 'border-purple-500 bg-purple-500/10'
-                : 'border-slate-700 hover:border-purple-500/50 hover:bg-slate-800/50'
+                ? 'border-primary-500 bg-primary-50'
+                : 'border-gray-300 hover:border-primary-400 hover:bg-primary-50/50'
             } ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
             onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
             onDragLeave={() => setDragOver(false)}
@@ -171,43 +171,43 @@ export default function DatasetManager({
             />
             {uploading ? (
               <>
-                <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
-                <span className="text-sm text-slate-400">Processing...</span>
+                <Loader2 className="w-8 h-8 text-primary-500 animate-spin" />
+                <span className="text-sm text-gray-500">Processing...</span>
               </>
             ) : (
               <>
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                  <Upload className="w-5 h-5 text-purple-400" />
+                <div className="w-10 h-10 rounded-xl bg-primary-50 border border-primary-200 flex items-center justify-center">
+                  <Upload className="w-5 h-5 text-primary-500" />
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-medium text-slate-300">Upload Excel or CSV</p>
-                  <p className="text-xs text-slate-500 mt-0.5">.xlsx, .xls, .csv</p>
+                  <p className="text-sm font-medium text-gray-700">Upload Excel or CSV</p>
+                  <p className="text-xs text-gray-400 mt-0.5">.xlsx, .xls, .csv</p>
                 </div>
               </>
             )}
           </label>
 
           {uploadError && (
-            <div className="mt-3 flex items-start gap-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
-              <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-red-400">{uploadError}</p>
+            <div className="mt-3 flex items-start gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-red-600">{uploadError}</p>
             </div>
           )}
         </div>
 
         {/* Search */}
-        <div className="p-4 border-b border-white/5">
+        <div className="p-4 border-b border-gray-100">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
               placeholder="Search datasets..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-800/50 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500/50"
+              className="w-full bg-gray-50 border border-gray-300 rounded-lg pl-9 pr-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-500/50 focus:border-primary-500"
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300">
+              <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
@@ -218,8 +218,8 @@ export default function DatasetManager({
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {filteredDatasets.length === 0 ? (
             <div className="text-center py-8">
-              <FileSpreadsheet className="w-10 h-10 text-slate-700 mx-auto mb-3" />
-              <p className="text-sm text-slate-500">
+              <FileSpreadsheet className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+              <p className="text-sm text-gray-400">
                 {datasets.length === 0 ? 'No datasets yet' : 'No results found'}
               </p>
             </div>
@@ -229,30 +229,30 @@ export default function DatasetManager({
                 key={dataset.id}
                 className={`group p-4 rounded-xl border cursor-pointer transition-all duration-200 ${
                   selectedDataset?.id === dataset.id
-                    ? 'border-purple-500/40 bg-purple-500/10'
-                    : 'border-white/5 hover:border-white/10 hover:bg-slate-800/30'
+                    ? 'border-primary-300 bg-primary-50'
+                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                 }`}
                 onClick={() => onDatasetSelect(dataset)}
               >
                 <div className="flex items-start gap-3">
                   <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                    selectedDataset?.id === dataset.id ? 'bg-purple-500/20' : 'bg-slate-800'
+                    selectedDataset?.id === dataset.id ? 'bg-primary-100' : 'bg-gray-100'
                   }`}>
                     <FileSpreadsheet className={`w-4 h-4 ${
-                      selectedDataset?.id === dataset.id ? 'text-purple-400' : 'text-slate-500'
+                      selectedDataset?.id === dataset.id ? 'text-primary-500' : 'text-gray-400'
                     }`} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-white truncate">{dataset.name}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-sm font-medium text-gray-900 truncate">{dataset.name}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">
                       {dataset.row_count.toLocaleString()} rows · {dataset.column_count} cols
                     </p>
-                    <p className="text-xs text-slate-600 mt-0.5">{formatDate(dataset.uploaded_at)}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">{formatDate(dataset.uploaded_at)}</p>
                   </div>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDelete(dataset.id) }}
                     disabled={deletingId === dataset.id}
-                    className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-600 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                    className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
                   >
                     {deletingId === dataset.id ? (
                       <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -263,7 +263,7 @@ export default function DatasetManager({
                 </div>
 
                 {selectedDataset?.id === dataset.id && (
-                  <div className="mt-3 flex items-center gap-1 text-xs text-purple-400">
+                  <div className="mt-3 flex items-center gap-1 text-xs text-primary-600">
                     <span>Sheet: {dataset.sheet_name}</span>
                     <ChevronRight className="w-3 h-3" />
                     <span>Active</span>
@@ -276,22 +276,22 @@ export default function DatasetManager({
       </div>
 
       {/* Right: Column Details */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
         {selectedDataset ? (
           <>
-            <div className="p-6 border-b border-white/5 flex items-center justify-between">
+            <div className="p-6 border-b border-gray-200 bg-white flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-semibold text-white">{selectedDataset.name}</h2>
-                <p className="text-sm text-slate-500 mt-0.5">
+                <h2 className="text-lg font-semibold text-gray-900">{selectedDataset.name}</h2>
+                <p className="text-sm text-gray-500 mt-0.5">
                   Sheet: {selectedDataset.sheet_name} · {selectedDataset.row_count.toLocaleString()} rows · {selectedDataset.column_count} columns
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-slate-500" />
+                <Filter className="w-4 h-4 text-gray-400" />
                 <select
                   value={typeFilter}
                   onChange={(e) => setTypeFilter(e.target.value)}
-                  className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-purple-500/50"
+                  className="bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-primary-500/50 focus:border-primary-500"
                 >
                   <option value="all">All Types</option>
                   {uniqueTypes.map(t => (
@@ -304,25 +304,25 @@ export default function DatasetManager({
             <div className="flex-1 overflow-y-auto p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {filteredColumns.map((col) => (
-                  <div key={col.name} className="glass rounded-xl p-4 border border-white/5">
+                  <div key={col.name} className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-sm font-medium text-white truncate flex-1 mr-2">{col.name}</h3>
+                      <h3 className="text-sm font-medium text-gray-900 truncate flex-1 mr-2">{col.name}</h3>
                       <span className={`text-xs px-2 py-0.5 rounded-full flex-shrink-0 ${getTypeColor(col.type)}`}>
                         {col.type}
                       </span>
                     </div>
 
-                    <div className="space-y-1.5 text-xs text-slate-500">
+                    <div className="space-y-1.5 text-xs text-gray-500">
                       {col.unique_count !== undefined && (
                         <div className="flex justify-between">
                           <span>Unique values</span>
-                          <span className="text-slate-300">{col.unique_count.toLocaleString()}</span>
+                          <span className="text-gray-700 font-medium">{col.unique_count.toLocaleString()}</span>
                         </div>
                       )}
                       {col.null_count !== undefined && col.null_count > 0 && (
                         <div className="flex justify-between">
                           <span>Null count</span>
-                          <span className="text-yellow-400">{col.null_count.toLocaleString()}</span>
+                          <span className="text-amber-600 font-medium">{col.null_count.toLocaleString()}</span>
                         </div>
                       )}
                     </div>
@@ -330,12 +330,12 @@ export default function DatasetManager({
                     {col.sample_values && col.sample_values.length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-1">
                         {col.sample_values.slice(0, 3).map((v, i) => (
-                          <span key={i} className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md truncate max-w-[120px]">
+                          <span key={i} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md truncate max-w-[120px]">
                             {v}
                           </span>
                         ))}
                         {col.sample_values.length > 3 && (
-                          <span className="text-xs text-slate-600">+{col.sample_values.length - 3}</span>
+                          <span className="text-xs text-gray-400">+{col.sample_values.length - 3}</span>
                         )}
                       </div>
                     )}
@@ -346,11 +346,11 @@ export default function DatasetManager({
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-white/5 flex items-center justify-center mb-6">
-              <BarChart2 className="w-10 h-10 text-slate-600" />
+            <div className="w-20 h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-6">
+              <BarChart2 className="w-10 h-10 text-primary-300" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">No Dataset Selected</h3>
-            <p className="text-slate-500 text-sm max-w-xs">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Dataset Selected</h3>
+            <p className="text-gray-400 text-sm max-w-xs">
               Upload an Excel or CSV file to get started with AI-powered insights
             </p>
           </div>

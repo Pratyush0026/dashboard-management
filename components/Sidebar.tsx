@@ -62,16 +62,16 @@ export default function Sidebar({
   }
 
   return (
-    <aside className="w-64 min-h-screen flex flex-col border-r border-white/5 bg-slate-900/50">
+    <aside className="w-64 min-h-screen flex flex-col border-r border-gray-200 bg-white">
       {/* Logo */}
-      <div className="p-6 border-b border-white/5">
+      <div className="p-6 border-b border-gray-100">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center shadow-lg shadow-purple-500/25 flex-shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-primary-500 flex items-center justify-center shadow-lg shadow-primary-500/30 flex-shrink-0">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
             <span className="text-lg font-bold gradient-text">TalenTrack</span>
-            <p className="text-xs text-slate-500">Admin Dashboard</p>
+            <p className="text-xs text-gray-400">Admin Dashboard</p>
           </div>
         </div>
       </div>
@@ -85,16 +85,16 @@ export default function Sidebar({
             onClick={() => setActiveTab(item.id)}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
               activeTab === item.id
-                ? 'bg-purple-500/15 text-purple-300 border border-purple-500/20'
-                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                ? 'bg-primary-50 text-primary-600 border border-primary-200'
+                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
             }`}
           >
-            <span className={activeTab === item.id ? 'text-purple-400' : 'text-slate-500 group-hover:text-slate-300'}>
+            <span className={activeTab === item.id ? 'text-primary-500' : 'text-gray-400 group-hover:text-gray-600'}>
               {item.icon}
             </span>
             <span className="flex-1 text-left">{item.label}</span>
             {item.badge !== undefined && (
-              <span className="bg-purple-500/20 text-purple-300 text-xs px-2 py-0.5 rounded-full">
+              <span className="bg-primary-100 text-primary-600 text-xs px-2 py-0.5 rounded-full font-medium">
                 {item.badge}
               </span>
             )}
@@ -104,7 +104,7 @@ export default function Sidebar({
         {/* Dataset list */}
         {datasets.length > 0 && (
           <div className="pt-4">
-            <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider px-3 mb-2">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-2">
               Recent Datasets
             </p>
             <div className="space-y-1">
@@ -114,14 +114,14 @@ export default function Sidebar({
                   onClick={() => onDatasetSelect(ds)}
                   className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-all duration-200 group ${
                     selectedDataset?.id === ds.id
-                      ? 'bg-blue-500/10 text-blue-300'
-                      : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'
+                      ? 'bg-primary-50 text-primary-600'
+                      : 'text-gray-400 hover:text-gray-700 hover:bg-gray-50'
                   }`}
                 >
                   <FileSpreadsheet className="w-3.5 h-3.5 flex-shrink-0" />
                   <span className="flex-1 text-left truncate">{ds.name}</span>
                   {selectedDataset?.id === ds.id && (
-                    <ChevronRight className="w-3 h-3 text-blue-400" />
+                    <ChevronRight className="w-3 h-3 text-primary-500" />
                   )}
                 </button>
               ))}
@@ -131,20 +131,20 @@ export default function Sidebar({
       </nav>
 
       {/* User Profile */}
-      <div className="p-4 border-t border-white/5">
+      <div className="p-4 border-t border-gray-100">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-primary-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
             {user ? getInitials(user.name) : '?'}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">{user?.name || 'Admin'}</p>
-            <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+            <p className="text-sm font-medium text-gray-900 truncate">{user?.name || 'Admin'}</p>
+            <p className="text-xs text-gray-400 truncate">{user?.email}</p>
           </div>
         </div>
         <button
           id="logout-btn"
           onClick={onLogout}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 group"
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all duration-200 group"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign out</span>

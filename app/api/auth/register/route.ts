@@ -48,7 +48,14 @@ export async function POST(request: NextRequest) {
 
     if (error || !admin) {
       console.error('Register error:', error)
-      return NextResponse.json({ error: 'Failed to create account' }, { status: 500 })
+      const msg = (error as any)?.message || ''
+      if (msg.includes('does not exist') || (error as any)?.code === '42P01') {
+        return NextResponse.json(
+          { error: 'Database tables not found. Please run the setup SQL in your Supabase dashboard (see lib/supabase/setup.sql).' },
+          { status: 500 }
+        )
+      }
+      return NextResponse.json({ error: `Failed to create account: ${msg}` }, { status: 500 })
     }
 
     // Generate JWT

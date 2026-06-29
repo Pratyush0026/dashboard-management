@@ -176,18 +176,18 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
 
   if (!dataset) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-white/5 flex items-center justify-center mb-6">
-          <MessageSquare className="w-10 h-10 text-slate-600" />
+      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-gray-50">
+        <div className="w-20 h-20 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-6">
+          <MessageSquare className="w-10 h-10 text-primary-300" />
         </div>
-        <h3 className="text-lg font-semibold text-white mb-2">No Dataset Selected</h3>
-        <p className="text-slate-500 text-sm max-w-xs mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">No Dataset Selected</h3>
+        <p className="text-gray-400 text-sm max-w-xs mb-6">
           Upload a dataset first to start getting AI-powered insights
         </p>
         <button
           id="go-to-datasets-btn"
           onClick={onSwitchToDatasets}
-          className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
+          className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2.5 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-primary-500/25"
         >
           Go to Datasets
         </button>
@@ -196,16 +196,16 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden">
+    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-gray-50">
       {/* Header */}
-      <div className="p-4 border-b border-white/5 flex items-center justify-between bg-slate-900/30">
+      <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/20 flex items-center justify-center">
-            <FileSpreadsheet className="w-4 h-4 text-purple-400" />
+          <div className="w-9 h-9 rounded-xl bg-primary-50 border border-primary-200 flex items-center justify-center">
+            <FileSpreadsheet className="w-4 h-4 text-primary-500" />
           </div>
           <div>
-            <h2 className="text-sm font-semibold text-white">{dataset.name}</h2>
-            <p className="text-xs text-slate-500">
+            <h2 className="text-sm font-semibold text-gray-900">{dataset.name}</h2>
+            <p className="text-xs text-gray-400">
               {dataset.row_count.toLocaleString()} rows · {dataset.column_count} cols · Sheet: {dataset.sheet_name}
             </p>
           </div>
@@ -213,31 +213,31 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
 
         <div className="flex items-center gap-2">
           {/* Model Selector */}
-          <div className="flex items-center gap-2 mr-2 bg-slate-800/40 border border-white/5 rounded-xl px-2.5 py-1.5 transition-all hover:bg-slate-800/60 hover:border-white/10">
-            <div className={`w-1.5 h-1.5 rounded-full ${provider === 'gemini' ? 'bg-purple-400 shadow-sm shadow-purple-400' : 'bg-emerald-400 shadow-sm shadow-emerald-400'} animate-pulse`} />
+          <div className="flex items-center gap-2 mr-2 bg-gray-50 border border-gray-200 rounded-xl px-2.5 py-1.5 transition-all hover:bg-gray-100 hover:border-gray-300">
+            <div className={`w-1.5 h-1.5 rounded-full ${provider === 'gemini' ? 'bg-primary-500 shadow-sm shadow-primary-400' : 'bg-emerald-500 shadow-sm shadow-emerald-400'} animate-pulse`} />
             <select
               value={provider}
               onChange={(e) => handleProviderChange(e.target.value as 'gemini' | 'openai')}
-              className="bg-transparent border-none p-0 text-xs font-semibold text-slate-300 focus:ring-0 focus:outline-none cursor-pointer hover:text-white transition-colors select-none"
+              className="bg-transparent border-none p-0 text-xs font-semibold text-gray-700 focus:ring-0 focus:outline-none cursor-pointer hover:text-gray-900 transition-colors select-none"
             >
-              <option value="gemini" className="bg-slate-900 text-slate-300">Google Gemini</option>
-              <option value="openai" className="bg-slate-900 text-slate-300">OpenAI GPT-4o</option>
+              <option value="gemini" className="bg-white text-gray-700">Google Gemini</option>
+              <option value="openai" className="bg-white text-gray-700">OpenAI GPT-4o</option>
             </select>
           </div>
 
           {showSearch && (
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search messages..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-8 py-1.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500/50 w-52"
+                className="bg-gray-50 border border-gray-300 rounded-lg pl-9 pr-8 py-1.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-500/50 focus:border-primary-500 w-52"
                 autoFocus
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300">
+                <button onClick={() => setSearchQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
@@ -245,14 +245,14 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
           )}
           <button
             onClick={() => { setShowSearch(!showSearch); setSearchQuery('') }}
-            className={`p-2 rounded-lg transition-all ${showSearch ? 'bg-purple-500/20 text-purple-400' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'}`}
+            className={`p-2 rounded-lg transition-all ${showSearch ? 'bg-primary-100 text-primary-600' : 'text-gray-400 hover:text-gray-700 hover:bg-gray-100'}`}
           >
             <Search className="w-4 h-4" />
           </button>
           {messages.length > 0 && (
             <button
               onClick={clearChat}
-              className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+              className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
               title="Clear chat"
             >
               <Trash2 className="w-4 h-4" />
@@ -265,12 +265,12 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full py-12">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center mb-4">
-              <Sparkles className="w-8 h-8 text-purple-400" />
+            <div className="w-16 h-16 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center mb-4">
+              <Sparkles className="w-8 h-8 text-primary-500" />
             </div>
-            <h3 className="text-white font-semibold mb-2">Ask about your data</h3>
-            <p className="text-slate-500 text-sm mb-8 text-center max-w-md">
-              Ask questions about <strong className="text-slate-300">{dataset.name}</strong>. The AI analyzes your data for accurate answers.
+            <h3 className="text-gray-900 font-semibold mb-2">Ask about your data</h3>
+            <p className="text-gray-400 text-sm mb-8 text-center max-w-md">
+              Ask questions about <strong className="text-gray-700">{dataset.name}</strong>. The AI analyzes your data for accurate answers.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-2xl w-full">
@@ -279,9 +279,9 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
                   key={i}
                   onClick={() => sendMessage(prompt)}
                   disabled={loading}
-                  className="text-left p-3 rounded-xl border border-white/5 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all duration-200 group"
+                  className="text-left p-3 rounded-xl border border-gray-200 bg-white hover:border-primary-300 hover:bg-primary-50 transition-all duration-200 group shadow-sm"
                 >
-                  <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors line-clamp-2">{prompt}</p>
+                  <p className="text-sm text-gray-500 group-hover:text-gray-800 transition-colors line-clamp-2">{prompt}</p>
                 </button>
               ))}
             </div>
@@ -296,22 +296,22 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
             {/* Avatar */}
             <div className={`w-8 h-8 rounded-xl flex-shrink-0 flex items-center justify-center ${
               message.role === 'user'
-                ? 'bg-gradient-to-br from-purple-600 to-blue-600'
-                : 'bg-gradient-to-br from-slate-700 to-slate-600'
+                ? 'bg-primary-500'
+                : 'bg-white border border-gray-200 shadow-sm'
             }`}>
               {message.role === 'user' ? (
                 <User className="w-4 h-4 text-white" />
               ) : (
-                <Bot className="w-4 h-4 text-slate-300" />
+                <Bot className="w-4 h-4 text-gray-500" />
               )}
             </div>
 
             {/* Bubble */}
             <div className={`flex-1 max-w-4xl ${message.role === 'user' ? 'items-end' : 'items-start'} flex flex-col`}>
               {message.isLoading ? (
-                <div className="glass border border-white/5 rounded-2xl rounded-tl-sm px-4 py-3">
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                <div className="bg-white border border-gray-200 shadow-sm rounded-2xl rounded-tl-sm px-4 py-3">
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Loader2 className="w-4 h-4 animate-spin text-primary-500" />
                     <span className="text-sm">Analyzing data...</span>
                   </div>
                 </div>
@@ -319,8 +319,8 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
                 <div
                   className={`px-4 py-3 rounded-2xl ${
                     message.role === 'user'
-                      ? 'bg-gradient-to-br from-purple-600/80 to-blue-600/80 text-white rounded-tr-sm border border-purple-500/20'
-                      : 'glass border border-white/5 rounded-tl-sm'
+                      ? 'bg-primary-500 text-white rounded-tr-sm shadow-lg shadow-primary-500/20'
+                      : 'bg-white border border-gray-200 shadow-sm rounded-tl-sm'
                   }`}
                 >
                   {message.role === 'user' ? (
@@ -337,34 +337,34 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
                             </div>
                           ),
                           thead: ({ children }) => (
-                            <thead className="bg-purple-500/10">{children}</thead>
+                            <thead className="bg-primary-50">{children}</thead>
                           ),
                           th: ({ children }) => (
-                            <th className="px-3 py-2 text-left text-purple-300 font-semibold border border-slate-700/50 text-xs uppercase tracking-wider">
+                            <th className="px-3 py-2 text-left text-primary-700 font-semibold border border-gray-200 text-xs uppercase tracking-wider">
                               {children}
                             </th>
                           ),
                           td: ({ children }) => (
-                            <td className="px-3 py-2 border border-slate-700/50 text-slate-300">
+                            <td className="px-3 py-2 border border-gray-200 text-gray-700">
                               {children}
                             </td>
                           ),
                           tr: ({ children, ...props }) => (
-                            <tr className="hover:bg-slate-800/30 transition-colors" {...props}>
+                            <tr className="hover:bg-primary-50/50 transition-colors" {...props}>
                               {children}
                             </tr>
                           ),
                           p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
                           ul: ({ children }) => <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>,
                           ol: ({ children }) => <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>,
-                          li: ({ children }) => <li className="text-slate-300">{children}</li>,
-                          h1: ({ children }) => <h1 className="text-lg font-bold text-white mb-2">{children}</h1>,
-                          h2: ({ children }) => <h2 className="text-base font-semibold text-white mb-2">{children}</h2>,
-                          h3: ({ children }) => <h3 className="text-sm font-semibold text-white mb-1">{children}</h3>,
-                          strong: ({ children }) => <strong className="font-semibold text-purple-300">{children}</strong>,
-                          code: ({ children }) => <code className="bg-slate-800 text-purple-300 px-1.5 py-0.5 rounded text-xs">{children}</code>,
+                          li: ({ children }) => <li className="text-gray-700">{children}</li>,
+                          h1: ({ children }) => <h1 className="text-lg font-bold text-gray-900 mb-2">{children}</h1>,
+                          h2: ({ children }) => <h2 className="text-base font-semibold text-gray-900 mb-2">{children}</h2>,
+                          h3: ({ children }) => <h3 className="text-sm font-semibold text-gray-900 mb-1">{children}</h3>,
+                          strong: ({ children }) => <strong className="font-semibold text-primary-600">{children}</strong>,
+                          code: ({ children }) => <code className="bg-primary-50 text-primary-700 px-1.5 py-0.5 rounded text-xs border border-primary-100">{children}</code>,
                           blockquote: ({ children }) => (
-                            <blockquote className="border-l-2 border-purple-500/50 pl-3 text-slate-400 italic my-2">
+                            <blockquote className="border-l-2 border-primary-400 pl-3 text-gray-500 italic my-2 bg-primary-50/50 py-1 rounded-r">
                               {children}
                             </blockquote>
                           ),
@@ -376,13 +376,13 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
                   )}
                 </div>
               )}
-              <span className="text-xs text-slate-600 mt-1 px-1">{formatTime(message.timestamp)}</span>
+              <span className="text-xs text-gray-400 mt-1 px-1">{formatTime(message.timestamp)}</span>
             </div>
           </div>
         ))}
 
         {searchQuery && filteredMessages.length === 0 && (
-          <div className="text-center py-8 text-slate-500 text-sm">
+          <div className="text-center py-8 text-gray-400 text-sm">
             No messages matching &ldquo;{searchQuery}&rdquo;
           </div>
         )}
@@ -391,7 +391,7 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t border-white/5 bg-slate-900/30">
+      <div className="p-4 border-t border-gray-200 bg-white">
         <form onSubmit={handleSubmit} className="flex gap-3 items-end">
           <div className="flex-1 relative">
             <textarea
@@ -402,7 +402,7 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
               onKeyDown={handleKeyDown}
               placeholder={`Ask anything about ${dataset.name}...`}
               rows={1}
-              className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all resize-none max-h-32 scrollbar-thin"
+              className="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all resize-none max-h-32 scrollbar-thin"
               style={{ minHeight: '48px' }}
               onInput={(e) => {
                 const target = e.target as HTMLTextAreaElement
@@ -415,7 +415,7 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
             id="ai-send-btn"
             type="submit"
             disabled={!input.trim() || loading}
-            className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl flex items-center justify-center transition-all duration-200 shadow-lg shadow-purple-500/25"
+            className="flex-shrink-0 w-12 h-12 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl flex items-center justify-center transition-all duration-200 shadow-lg shadow-primary-500/25"
           >
             {loading ? (
               <Loader2 className="w-5 h-5 text-white animate-spin" />
@@ -424,7 +424,7 @@ export default function AIChat({ dataset, onSwitchToDatasets }: AIChatProps) {
             )}
           </button>
         </form>
-        <p className="text-xs text-slate-600 mt-2 text-center">
+        <p className="text-xs text-gray-400 mt-2 text-center">
           Press Enter to send · Shift+Enter for new line
         </p>
       </div>

@@ -104,17 +104,17 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-blue-600 animate-pulse" />
-          <p className="text-slate-400 text-sm">Loading dashboard...</p>
+          <div className="w-12 h-12 rounded-2xl bg-primary-500 animate-pulse" />
+          <p className="text-gray-400 text-sm">Loading dashboard...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex bg-slate-950">
+    <div className="min-h-screen flex bg-gray-50">
       <Sidebar
         user={user}
         activeTab={activeTab}
