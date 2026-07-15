@@ -276,7 +276,7 @@ export default function DatasetManager({
       </div>
 
       {/* Right: Column Details */}
-      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
+      <div className="flex-1 flex flex-col overflow-hidden bg-[#F5F5DC]">
         {selectedDataset ? (
           <>
             <div className="p-6 border-b border-gray-200 bg-white flex items-center justify-between">

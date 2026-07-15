@@ -1,6 +1,6 @@
 'use client'
 
-import { Database, MessageSquare, LogOut, Sparkles, ChevronRight, FileSpreadsheet } from 'lucide-react'
+import { Database, MessageSquare, LogOut, Sparkles, ChevronRight, FileSpreadsheet, Table2 } from 'lucide-react'
 import type { ActiveTab } from '@/app/dashboard/page'
 
 interface Dataset {
@@ -44,6 +44,11 @@ export default function Sidebar({
       label: 'Datasets',
       icon: <Database className="w-4 h-4" />,
       badge: datasets.length > 0 ? datasets.length : undefined,
+    },
+    {
+      id: 'explorer',
+      label: 'Data Explorer',
+      icon: <Table2 className="w-4 h-4" />,
     },
     {
       id: 'ai-chat',

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import DatasetManager from '@/components/DatasetManager'
+import DataExplorer from '@/components/DataExplorer'
 import AIChat from '@/components/AIChat'
 
 interface User {
@@ -18,11 +19,17 @@ interface Dataset {
   sheet_name: string
   row_count: number
   column_count: number
-  columns: Array<{ name: string; type: string }>
+  columns: Array<{
+    name: string
+    type: string
+    unique_count?: number
+    null_count?: number
+    sample_values?: string[]
+  }>
   uploaded_at: string
 }
 
-export type ActiveTab = 'datasets' | 'ai-chat'
+export type ActiveTab = 'datasets' | 'explorer' | 'ai-chat'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -133,6 +140,12 @@ export default function DashboardPage() {
             onDatasetSelect={handleDatasetSelect}
             onDatasetAdded={handleDatasetAdded}
             onDatasetDeleted={handleDatasetDeleted}
+          />
+        )}
+        {activeTab === 'explorer' && (
+          <DataExplorer
+            dataset={selectedDataset}
+            onSwitchToDatasets={() => setActiveTab('datasets')}
           />
         )}
         {activeTab === 'ai-chat' && (
